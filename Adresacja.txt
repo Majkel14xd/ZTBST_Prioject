@@ -1,0 +1,20 @@
+VLAN101Users - 192.168.101.0
+VLAN102Users - 192.168.102.0
+VLAN99Admins - 192.168.99.0
+
+VLAN101Users ip router1 192.168.101.1
+VLAN101Users ip router2 192.168.101.2
+VLAN101Users ip virutal 192.168.101.3
+
+VLAN102Users ip router1 192.168.102.1
+VLAN102Users ip router2 192.168.102.2
+VLAN102Users ip virutal 192.168.102.3
+
+VLAN99Admins ip router1 192.170.99.1
+VLAN99Admins ip router2 192.170.99.2
+VLAN99Admins ip virutal 127.170.99.3
+
+
+Router standby 1 - VLAN101Users
+Router standby 2 - VLAN102Users
+Router standby 3 - VLAN99Admins
