@@ -1,0 +1,133 @@
+!
+version 15.4
+no service timestamps log datetime msec
+no service timestamps debug datetime msec
+no service password-encryption
+!
+hostname GATE_BRANCH
+!
+!
+!
+enable secret 5 $1$mERr$WvpW0n5HghRrqnrwXCUUl.
+!
+!
+!
+!
+!
+aaa new-model
+!
+!
+!
+!
+!
+!
+!
+!
+no ip cef
+no ipv6 cef
+!
+!
+!
+username SupportAdmin1 secret 5 $1$mERr$WvpW0n5HghRrqnrwXCUUl.
+username SupportAdmin2 secret 5 $1$mERr$WvpW0n5HghRrqnrwXCUUl.
+!
+!
+!
+!
+!
+!
+!
+!
+ip ssh version 2
+ip domain-name michal.lidwa.pl
+!
+!
+spanning-tree mode pvst
+!
+!
+!
+!
+!
+!
+interface GigabitEthernet0/0/0
+ ip address 209.170.250.225 255.255.255.248
+ duplex auto
+ speed auto
+!
+interface GigabitEthernet0/0/1
+ no ip address
+ duplex auto
+ speed auto
+ shutdown
+!
+interface GigabitEthernet0/0/2
+ no ip address
+ duplex auto
+ speed auto
+ shutdown
+!
+interface Serial0/1/0
+ ip address 81.50.20.2 255.255.255.252
+ clock rate 2000000
+!
+interface Serial0/1/1
+ no ip address
+ clock rate 2000000
+ shutdown
+!
+interface Vlan1
+ no ip address
+ shutdown
+!
+router ospf 2002
+ router-id 3.3.3.3
+ log-adjacency-changes
+ network 81.50.20.0 0.0.0.3 area 0
+ network 209.170.250.224 0.0.0.7 area 0
+!
+router rip
+!
+ip classless
+!
+ip flow-export version 9
+!
+!
+ip access-list standard SSH_ACCESS
+ permit 192.170.99.0 0.0.0.127
+ deny any
+!
+!
+!
+!
+!
+line con 0
+!
+line aux 0
+!
+line vty 0 4
+ access-class SSH_ACCESS in
+ transport input ssh
+line vty 5 15
+ access-class SSH_ACCESS in
+ transport input ssh
+!
+!
+parser view SupportAdmin1
+ secret 5 $1$mERr$WvpW0n5HghRrqnrwXCUUl.
+ commands configure include ip
+ commands configure include all ip route
+ commands configure include all router
+ commands exec include configure
+ commands exec include configure terminal
+ commands exec include all show
+!
+parser view SupportAdmin2
+ secret 5 $1$mERr$WvpW0n5HghRrqnrwXCUUl.
+ commands configure include all access-list
+ commands exec include configure
+ commands exec include configure terminal
+ commands exec include all show
+!
+!
+end
+
